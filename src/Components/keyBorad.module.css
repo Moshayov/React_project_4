@@ -1,0 +1,84 @@
+
+.neon-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #0000ff; /* צבע הרקע */
+    box-shadow: 0 0 20px #00ff00, /* צל של האפקט הניאון */
+                0 0 40px #00ff00,
+                0 0 60px #00ff00,
+                0 0 80px #00ff00;
+  }
+  
+  .characters {
+   
+  }
+  
+ .renderButton{
+    margin: 1px;
+    height: 42px;
+    width: 42px;
+    font-size: 15px ;
+    background-color: black;
+    color: azure;
+    border-radius: 50%;
+    font-family:monospace;
+    border-color: rgb(94, 187, 41);
+    border:2px solid;   
+}
+  .textarea {
+    height: 300px;
+    width: 400px;
+    margin-bottom: 20px;
+    
+  }
+  
+  .controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .controls select {
+    margin-right: 10px;
+  }
+  
+  .f_line,.s_line, .t_line, .four_line, .sb {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    
+  }
+ 
+  
+  .number {
+   
+  }
+  
+  .letter {
+    
+  }
+  
+  .capslock, .enter, .spe_char, .tab ,.spacebar,.backspace,.lang{
+    background-color: black;
+    color: azure;
+    border-radius: 50px;
+    font-family:monospace;
+    border-color: white;
+    border:2px solid;   
+    margin-left: 5px;
+  }
+  
+  .sb{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    padding-top: 2.5;
+   
+}
+.spacebar{
+    
+    width: 400px;
+    height: 40px;
+}
