@@ -1,31 +1,17 @@
-
-.neon-circle {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: #0000ff; /* צבע הרקע */
-    box-shadow: 0 0 20px #00ff00, /* צל של האפקט הניאון */
-                0 0 40px #00ff00,
-                0 0 60px #00ff00,
-                0 0 80px #00ff00;
-  }
-  
-  .characters {
-   
-  }
-  
- .renderButton{
+.renderButton{
     margin: 1px;
     height: 42px;
     width: 42px;
     font-size: 15px ;
     background-color: black;
-    color: azure;
+    color: rgb(18, 175, 65);
     border-radius: 50%;
     font-family:monospace;
     border-color: rgb(94, 187, 41);
     border:2px solid;   
+
 }
+
   .textarea {
     height: 300px;
     width: 400px;
@@ -42,26 +28,74 @@
   .controls select {
     margin-right: 10px;
   }
-  
+  .Keyboard{
+    margin-left: 5%;
+  }
   .f_line,.s_line, .t_line, .four_line, .sb {
+   
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     
   }
- 
-  
-  .number {
+  .bold{
    
+    height: 30px;
+    width: 50px;
+    margin: 1px;
+    font-size: 15px ;
+    background-color: rgb(235, 235, 235);
+    color: rgb(14, 15, 14);
+
+    font-family:monospace;
+    border:1px solid;   
   }
-  
-  .letter {
+ .f_line .renderButton{
+  color: #4ed01a;
+ 
+ }
+  .s_line  .renderButton{ 
+    color: #ce1616;
     
   }
+  .t_line  .renderButton{
+    color: #0000ff;
   
-  .capslock, .enter, .spe_char, .tab ,.spacebar,.backspace,.lang{
+  }
+  .four_line  .renderButton{
+    color: #c53ace;
+   
+  }
+  .tab {
+    color: #ce1616;
     background-color: black;
-    color: azure;
+    border-radius: 50px;
+    font-family:monospace;
+    border-color: white;
+    border:2px solid;   
+    margin-left: 5px;
+  }
+  .backspace{
+    color:#4ed01a ;
+    background-color: black;
+    border-radius: 50px;
+    font-family:monospace;
+    border-color: white;
+    border:2px solid;   
+    margin-left: 5px;
+  }
+  .capslock{
+    color:#0000ff ;
+    background-color: black;
+    border-radius: 50px;
+    font-family:monospace;
+    border-color: white;
+    border:2px solid;   
+    margin-left: 5px;
+  }
+ .enter, .spe_char ,.spacebar,.lang{
+    background-color: black;
+    color: #c53ace;
     border-radius: 50px;
     font-family:monospace;
     border-color: white;
@@ -78,7 +112,20 @@
    
 }
 .spacebar{
-    
+    color:#dfec11;
     width: 400px;
     height: 40px;
+}
+
+
+.main {
+ 
+  margin: 90%;
+  margin-top: 20%;
+  text-align: center;
+  border-radius: 25px;
+  width:700px;
+  padding: 10px;
+  background-color:rgba(75, 16, 16, 0.238);
+  backdrop-filter: blur(7px);
 }

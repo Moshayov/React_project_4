@@ -102,117 +102,121 @@ function Keyboard() {
   const changeFontColor = (event) => setFontColor(event.target.value);
 
   return (
-    <>
-      <div className={style.textbox }style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor }}>
-        <textarea
-          value={enterValue}
-          readOnly
-          style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor ,height:'300px',width:'650px' }}
-        />
+    <div className={style.body}>
+      <div className={style.main} >
+        <div className={style.textbox }style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor }}>
+          <textarea
+            value={enterValue}
+            readOnly
+            style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor ,height:'300px',width:'650px' }}
+          />
+        </div>
+        <div className={style.Keyboard}>
+        <div className={style.controls}>
+          {/* רשימת בחירת גודל פונט */}
+          <select value={fontSize} onChange={changeFontSize}>
+            {fontSizes.map((size) => (
+              <option key={size} value={size}>{size}px</option>
+            ))}
+          </select>
+          <button className={style.bold} style={{fontWeight: isBold ? 'bold' : 'normal'}} onClick={() => setIsBold((prevBold) => !prevBold)}>{isBold ? 'B' : 'B'}</button>
+          <input type="color" value={fontColor} onChange={(e) => setFontColor(e.target.value)} />
+        </div>
+        <div className={style.f_line}>
+          <div className={style.characters}>
+            {renderButton("~")}
+          </div>
+          <div className={style.number}>
+            {renderButton("1")}
+            {renderButton("2")}
+            {renderButton("3")}
+            {renderButton("4")}
+            {renderButton("5")}
+            {renderButton("6")}
+            {renderButton("7")}
+            {renderButton("8")}
+            {renderButton("9")}
+            {renderButton("0")}
+          </div>
+          <div className={style.characters}>
+            {renderButton("-")}
+            {renderButton("+")}
+            <button className={style.backspace} onClick={() => handleButtons("backspace")}><FontAwesomeIcon icon={faBackspace} /></button>
+          </div>
+        </div>
+        <div className={style.s_line}>
+          <div className={style.characters}>
+            <button className={style.tab} onClick={() => handleButtons("tab")}>Tab</button>
+          </div>
+          <div className={style.letter}>
+            {renderButton("q")}
+            {renderButton("w")}
+            {renderButton("e")}
+            {renderButton("r")}
+            {renderButton("t")}
+            {renderButton("y")}
+            {renderButton("u")}
+            {renderButton("i")}
+            {renderButton("o")}
+            {renderButton("p")}
+          </div>
+          <div className={style.characters}>
+            {renderButton("[")}
+            {renderButton("]")}
+            {renderButton("\\")}
+          </div>
+        </div>
+        <div className={style.t_line}>
+          <div >
+            <button className={style.capslock} onClick={() => handleButtons("capl")}>Caps lock</button>
+          </div>
+          <div className={style.letter}>
+            {renderButton("a")}
+            {renderButton("s")}
+            {renderButton("d")}
+            {renderButton("f")}
+            {renderButton("g")}
+            {renderButton("h")}
+            {renderButton("j")}
+            {renderButton("k")}
+            {renderButton("l")}
+          </div>
+          <div className={style.characters}>
+            {renderButton(":")}
+            {renderButton("|")}
+            {renderButton(".")}
+          
+          </div>
+        </div>
+        <div className={style.four_line}>
+          <div >
+            <button className={style.lang} onClick={() => handleButtons("lang")}><FontAwesomeIcon icon={faGlobe} /></button>
+          </div>
+          <div>
+            {renderButton("z")}
+            {renderButton("x")}
+            {renderButton("c")}
+            {renderButton("v")}
+            {renderButton("b")}
+            {renderButton("n")}
+            {renderButton("m")}
+          </div>
+          <div className={style.characters}>
+            {renderButton("<")}
+            {renderButton(">")}
+            {renderButton(",")}
+            <button className={style.spe_char} onClick={() => handleButtons("schar")}>
+              {specialChar ? "ABC" : "!#1"}
+            </button>
+            <button className={style.enter} onClick={() => handleButtons("enter")}>Enter</button>
+          </div>
+        </div>
+        <div className={style.sb}>
+          <button className={style.spacebar} onClick={() => handleButtons("space")}></button>
+        </div>
+        </div>
       </div>
-      <div className={style.controls}>
-        {/* רשימת בחירת גודל פונט */}
-        <select value={fontSize} onChange={changeFontSize}>
-          {fontSizes.map((size) => (
-            <option key={size} value={size}>{size}px</option>
-          ))}
-        </select>
-        <button onClick={() => setIsBold((prevBold) => !prevBold)}>{isBold ? 'Normal' : 'Bold'}</button>
-        <input type="color" value={fontColor} onChange={(e) => setFontColor(e.target.value)} />
-      </div>
-      <div className={style.f_line}>
-        <div className={style.characters}>
-          {renderButton("~")}
-        </div>
-        <div className={style.number}>
-          {renderButton("1")}
-          {renderButton("2")}
-          {renderButton("3")}
-          {renderButton("4")}
-          {renderButton("5")}
-          {renderButton("6")}
-          {renderButton("7")}
-          {renderButton("8")}
-          {renderButton("9")}
-          {renderButton("0")}
-        </div>
-        <div className={style.characters}>
-          {renderButton("-")}
-          {renderButton("+")}
-          <button className={style.backspace} onClick={() => handleButtons("backspace")}><FontAwesomeIcon icon={faBackspace} /></button>
-        </div>
-      </div>
-      <div className={style.s_line}>
-        <div className={style.characters}>
-          <button className={style.tab} onClick={() => handleButtons("tab")}>Tab</button>
-        </div>
-        <div className={style.letter}>
-          {renderButton("q")}
-          {renderButton("w")}
-          {renderButton("e")}
-          {renderButton("r")}
-          {renderButton("t")}
-          {renderButton("y")}
-          {renderButton("u")}
-          {renderButton("i")}
-          {renderButton("o")}
-          {renderButton("p")}
-        </div>
-        <div className={style.characters}>
-          {renderButton("[")}
-          {renderButton("]")}
-          {renderButton("\\")}
-        </div>
-      </div>
-      <div className={style.t_line}>
-        <div >
-          <button className={style.capslock} onClick={() => handleButtons("capl")}>Caps lock</button>
-        </div>
-        <div className={style.letter}>
-          {renderButton("a")}
-          {renderButton("s")}
-          {renderButton("d")}
-          {renderButton("f")}
-          {renderButton("g")}
-          {renderButton("h")}
-          {renderButton("j")}
-          {renderButton("k")}
-          {renderButton("l")}
-        </div>
-        <div className={style.characters}>
-          {renderButton(":")}
-          {renderButton("|")}
-          {renderButton(".")}
-         
-        </div>
-      </div>
-      <div className={style.four_line}>
-        <div >
-          <button className={style.lang} onClick={() => handleButtons("lang")}><FontAwesomeIcon icon={faGlobe} /></button>
-        </div>
-        <div>
-          {renderButton("z")}
-          {renderButton("x")}
-          {renderButton("c")}
-          {renderButton("v")}
-          {renderButton("b")}
-          {renderButton("n")}
-          {renderButton("m")}
-        </div>
-        <div className={style.characters}>
-          {renderButton("<")}
-          {renderButton(">")}
-          {renderButton(",")}
-          <button className={style.spe_char} onClick={() => handleButtons("schar")}>
-            {specialChar ? "ABC" : "!#1"}
-          </button>
-          <button className={style.enter} onClick={() => handleButtons("enter")}>Enter</button>
-        </div>
-      </div>
-      <div className={style.sb}>
-        <button className={style.spacebar} onClick={() => handleButtons("space")}></button>
-      </div>
-    </>
+    </div>
   );
 }
 
