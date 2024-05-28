@@ -1,0 +1,45 @@
+.controls {
+  display: flex;
+  align-items: center; /* מיושר את האלמנטים לאורך ציר האנכי */
+  gap: 10px; /* מרווח בין האלמנטים */
+}
+
+/* סגנון לכפתור B */
+.bold {
+  padding: 5px 10px; /* גודל הכפתור */
+  border: none; /* הסרת מסגרת */
+  background-color: #f0f0f0; /* צבע רקע */
+  cursor: pointer; /* סמן עכבר מצביע על כפתור לחיצה */
+  transition: background-color 0.3s; /* אנימציה של העברת צבע רקע */
+}
+
+.bold:hover {
+  background-color: #e0e0e0; /* צבע רקע בעת העברת עכבר מעל הכפתור */
+}
+
+/* סגנון לכפתורי בחירת צבע */
+input[type="color"] {
+  width: 30px; /* גודל האלמנט */
+  height: 30px; /* גודל האלמנט */
+  border: none; /* הסרת מסגרת */
+  cursor: pointer; /* סמן עכבר מצביע על כפתור לחיצה */
+  padding: 0; /* הסרת רווח פנימי */
+}
+
+/* סגנון לתיבת בחירת פונט */
+select {
+  padding: 5px; /* רווח פנימי */
+  cursor: pointer; /* סמן עכבר מצביע על כפתור לחיצה */
+  border: none; /* הסרת מסגרת */
+  background-color: #f0f0f0; /* צבע רקע */
+  transition: background-color 0.3s; /* אנימציה של העברת צבע רקע */
+}
+
+select:hover {
+  background-color: #e0e0e0; /* צבע רקע בעת העברת עכבר מעל התיבה */
+}
+
+/* מרווח מתחת לכל הכפתורים בשורה */
+.controls > * {
+  margin-bottom: 15px; /* מרווח מתחת לכל אלמנט בתיבת הכלים */
+}
