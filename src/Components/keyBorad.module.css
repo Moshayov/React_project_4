@@ -11,10 +11,22 @@
     border:2px solid;   
 
 }
+.editor {
+  border: 2px solid #ccc; /* הוספת מסגרת סביב לטקסט */
+  height: 300px;
+    width: 700px;
+    border-radius: 2px;
+    border-color:#131212;
+    margin-bottom: 20px;
+    
+}
+
 
   .textarea {
     height: 300px;
     width: 400px;
+    border-radius: 2px;
+    border-color:#131212;
     margin-bottom: 20px;
     
   }
@@ -117,7 +129,9 @@
     width: 400px;
     height: 40px;
 }
-
+.all{
+  
+}
 
 .main {
  

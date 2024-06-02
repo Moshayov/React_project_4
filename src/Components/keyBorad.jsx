@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe, faBackspace, faArrowUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Toolbox from '../Components/ToolBar';
 
+
+
 function Keyboard() {
+  const [alltext,setAllText] = useState("");
   const [enterValue, setEnterValue] = useState("");
   const [isCapsLock, setCapsLock] = useState(false);
   const [languageChange, setLanguageChange] = useState(false);
@@ -13,58 +16,49 @@ function Keyboard() {
   const [fontSize, setFontSize] = useState(16);
   const [isBold, setIsBold] = useState(false);
   const [fontColor, setFontColor] = useState("#000000");
-  const [selectedText, setSelectedText] = useState("");
-  const fontSizes = [12, 14, 16, 18, 20, 24];
   const [fontFamily, setFontFamily] = useState("Arial");
   const [IsShift, setIsShiftValue] = useState(false);
-  const [ChangeValue, setChangeValue] = useState("");
+  const [undoStack, setUndoStack] = useState([]);
+  const [undoAllStack, setAllUndoStack] = useState([]);
 
- 
-    
   const changeFontSize = (event) => {
-    setFontSize(parseInt(event.target.value));
-    if (IsShift) {
-      document.execCommand("fontSize", false, event.target.value);
-      setSelectedText(""); // Clear selection after applying formatting
-    }
+    const newFontSize = parseInt(event.target.value);
+    setFontSize(newFontSize);
+    
+   
+  };
+  
+
+  const toggleBold = () => {
+    setIsBold((prevBold) => !prevBold);
+   
   };
   
   const changeFontFamily = (event) => {
     setFontFamily(event.target.value);
-    if (IsShift) {
-      document.execCommand("fontName", false, event.target.value);
-      setSelectedText(""); // Clear selection after applying formatting
-    }
+  
   };
   
-  const toggleBold = () => {
-    setIsBold((prevBold) => !prevBold);
-    if (IsShift) {
-      applyBoldToSelection();
-    }
-  };
   
   const changeFontColor = (event) => {
     setFontColor(event.target.value);
+ 
+  };
+  
+  const applyShiftStyleToAllText = () => {
+    console.log(alltext)
+    console.log(enterValue)
     if (IsShift) {
-      applyFontColorToSelection(event.target.value);
+      let style = '';
+      if (isBold) style += `font-weight: bold; `;
+      if (fontColor) style += `color: ${fontColor}; `;
+      if (fontSize) style += `font-size: ${fontSize}px; `;
+      if (fontFamily) style += `font-family: ${fontFamily}; `;
+      setEnterValue(()=>"")
+      setEnterValue(`<span style="${style}">${alltext}</span>`);
     }
   };
-  const applyBoldToSelection = () => {
-    if (IsShift) {
-      document.execCommand("bold", false, null);
-      setSelectedText("");
-    }
-  };
-
-  const applyFontColorToSelection = (color) => {
-    if (IsShift) {
-      document.execCommand("foreColor", false, color);
-      setSelectedText("");
-    }
-  };
-
-
+  
   const buttonMapping = {
     a: ["a", "A", "ש", "+", '👻'],
     b: ["b", "B", "נ", "*", '😿'],
@@ -113,10 +107,52 @@ function Keyboard() {
     }
   };
 
+  const handleBackspace = () => {
+    const spanRegex = /<span[^>]*>[^<]*<\/span>/g;
+    const matches = Array.from(enterValue.matchAll(spanRegex));
+    const lastSpanIndex = matches.length > 0 ? matches[matches.length - 1].index : -1;
+  
+    if (matches.length === 1) {
+   
+      const match = matches[0];
+      const spanContent = match[0];
+      const spanContentWithoutTags = spanContent.replace(/<[^>]+>/g, '');
+      if (spanContentWithoutTags.length > 0) {
+        const newContent = spanContentWithoutTags.slice(0, -1);
+        const newSpanContent = spanContent.replace(spanContentWithoutTags, newContent);
+        const newText = enterValue.replace(spanContent, newSpanContent);
+        setEnterValue(newText);
+      } else {
+        setEnterValue((prevValue) => prevValue.slice(0, -1));
+      }
+    } else if (lastSpanIndex >= 0) {
+      const newText = enterValue.substring(0, lastSpanIndex);
+      setEnterValue(newText);
+    } else {
+      setEnterValue((prevValue) => prevValue.slice(0, -1));
+    }
+  };
+  
+  
+ 
   const handleButtons = (val) => {
     switch (val) {
       case "backspace":
-        setEnterValue((prevVal) => prevVal.slice(0, -1));
+        setUndoStack([...undoStack, enterValue]);
+        setAllUndoStack([...undoAllStack,alltext]);
+        setAllText((prevVal) => prevVal.slice(0, -1));
+        console.log("hooo")
+        handleBackspace()
+      
+        break;
+      case "undo":
+        if (undoStack.length > 0) {
+          const lastAction = undoStack.pop();
+          const lastActiona = undoAllStack.pop();
+          setAllText(lastActiona);
+          setEnterValue(lastAction);
+          setUndoStack([...undoStack]);
+        }
         break;
       case "capl":
         setCapsLock((prev) => !prev);
@@ -125,7 +161,7 @@ function Keyboard() {
         setEnterValue((prevValue) => prevValue + " ");
         break;
       case "enter":
-        setEnterValue((prevValue) => prevValue + "\n");
+        setEnterValue((prevValue) => prevValue + "<br>");
         break;
       case "lang":
         setLanguageChange((prev) => !prev);
@@ -140,30 +176,36 @@ function Keyboard() {
         setImogiValue((prev) => !prev);
         break;
       case "clear":
+        setUndoStack([...undoStack, enterValue]);
+        setAllUndoStack([...undoAllStack,alltext]);
+        setAllText(() => "");
         setEnterValue(() => "");
+        
         break;
-      case "shift":
-        {
-          setIsShiftValue((prevVal) => !prevVal);
-          console.log(val)
-         
-              
-          break;
-        }
+      case "all":
+        setIsShiftValue((prevVal) => !prevVal);
+        applyShiftStyleToAllText();
+        break;
+
       default:
-        if(IsShift ){
-          setChangeValue((prevVal) => prevVal + getCharacter(val));
-          console.log({ChangeValue})    }
-        else{
-          setChangeValue(() => "");
-        }
-        setEnterValue((prevVal) => prevVal + getCharacter(val));
+        const char = getCharacter(val);
+        const formattedChar = formatCharacter(char);
+        setAllText((prevVal)=>prevVal+val);
+
+        setEnterValue((prevVal) => prevVal + formattedChar);
         break;
     }
   };
-  const handleInputChange = (event) => {
-    setEnterValue(event.target.value);
+
+  const formatCharacter = (char) => {
+    let style = '';
+    if (isBold) style += `font-weight: bold; `;
+    if (fontColor) style += `color: ${fontColor}; `;
+    if (fontSize) style += ` font-size: ${fontSize}px; `;
+    if (fontFamily) style += `font-family: ${fontFamily}; `;
+    return `<span style="${style}">${char}</span>`;
   };
+
   const renderButton = (key) => (
     <button className={style.renderButton} onClick={() => handleButtons(key)}>
       {getCharacter(key)}
@@ -173,28 +215,27 @@ function Keyboard() {
   return (
     <div className={style.body}>
       <div className={style.main}>
-      <div className={style.textbox} style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor, fontFamily: fontFamily }}>
-          <textarea
-            value={enterValue}
-           
-            onChange={handleInputChange}
-            readOnly={false}
-            style={{ fontSize: `${fontSize}px`, fontWeight: isBold ? 'bold' : 'normal', color: fontColor, fontFamily: fontFamily, height: '300px', width: '650px' }}
-          />
+      <div  >
+        
+          <div
+            contentEditable
+            dangerouslySetInnerHTML={{ __html: enterValue }}
+            className={style.editor}
+            id="text-editor"
+            
+          ></div>
         </div>
         <Toolbox
-            fontSize={fontSize}
-            fontSizes={fontSizes}
-            changeFontSize={changeFontSize}
-            isBold={isBold}
-            toggleBold={toggleBold}
-            fontColor={fontColor}
-            changeFontColor={changeFontColor}
-            selectedText={selectedText}
-            isshift={IsShift}
-            fontFamily={fontFamily}
-            changeFontFamily={changeFontFamily}
-          />
+          fontSize={fontSize}
+          fontSizes={[12, 14, 16, 18, 20, 24]}
+          changeFontSize={changeFontSize}
+          isBold={isBold}
+          toggleBold={toggleBold}
+          fontColor={fontColor}
+          changeFontColor={changeFontColor}
+          fontFamily={fontFamily}
+          changeFontFamily={changeFontFamily}
+        />
         <div className={style.Keyboard}>
           <div className={style.f_line}>
             <div className={style.characters}>
@@ -265,7 +306,9 @@ function Keyboard() {
             <div className={style.characters}>
               {renderButton(":")}
               {renderButton("|")}
-              {renderButton(".")}
+              <button className={style.renderButton} onClick={() => handleButtons("undo")}>
+               Un
+              </button>
             </div>
           </div>
           <div className={style.four_line}>
@@ -275,8 +318,8 @@ function Keyboard() {
               </button>
             </div>
             <div>
-            <button className={style.renderButton} onClick={() => handleButtons("shift")}>
-                sh
+            <button className={style.spe_char} onClick={() => handleButtons("all")}>
+                All
               </button>
               {renderButton("z")}
               {renderButton("x")}
