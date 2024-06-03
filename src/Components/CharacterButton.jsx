@@ -1,9 +1,14 @@
-import React from 'react';
 
 
 
-const CharacterButton = ({ children, style }) => {
-  return <span style={style}>{children}</span>;
+
+const CharacterButton = ({ isBold,fontColor,fontSize,fontFamily }) => {
+  let style = '';
+    if (isBold) style += `font-weight: bold; `;
+    if (fontColor) style += `color: ${fontColor}; `;
+    if (fontSize) style += ` font-size: ${fontSize}px; `;
+    if (fontFamily) style += `font-family: ${fontFamily}; `;
+    return `<span style="${style}">${char}</span>`;
 };
 
 

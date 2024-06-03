@@ -7,6 +7,7 @@ import Toolbox from '../Components/ToolBar';
 
 
 function Keyboard() {
+
   const [alltext,setAllText] = useState("");
   const [enterValue, setEnterValue] = useState("");
   const [isCapsLock, setCapsLock] = useState(false);
@@ -36,7 +37,6 @@ function Keyboard() {
   
   const changeFontFamily = (event) => {
     setFontFamily(event.target.value);
-  
   };
   
   
@@ -48,7 +48,6 @@ function Keyboard() {
   const applyShiftStyleToAllText = () => {
     console.log(alltext)
     console.log(enterValue)
-    if (IsShift) {
       let style = '';
       if (isBold) style += `font-weight: bold; `;
       if (fontColor) style += `color: ${fontColor}; `;
@@ -56,7 +55,6 @@ function Keyboard() {
       if (fontFamily) style += `font-family: ${fontFamily}; `;
       setEnterValue(()=>"")
       setEnterValue(`<span style="${style}">${alltext}</span>`);
-    }
   };
   
   const buttonMapping = {
@@ -134,16 +132,13 @@ function Keyboard() {
   };
   
   
- 
   const handleButtons = (val) => {
     switch (val) {
       case "backspace":
         setUndoStack([...undoStack, enterValue]);
         setAllUndoStack([...undoAllStack,alltext]);
         setAllText((prevVal) => prevVal.slice(0, -1));
-        console.log("hooo")
-        handleBackspace()
-      
+        handleBackspace();
         break;
       case "undo":
         if (undoStack.length > 0) {
@@ -184,14 +179,13 @@ function Keyboard() {
         break;
       case "all":
         setIsShiftValue((prevVal) => !prevVal);
+        console.log(IsShift)
         applyShiftStyleToAllText();
         break;
-
       default:
         const char = getCharacter(val);
         const formattedChar = formatCharacter(char);
         setAllText((prevVal)=>prevVal+val);
-
         setEnterValue((prevVal) => prevVal + formattedChar);
         break;
     }
@@ -216,13 +210,11 @@ function Keyboard() {
     <div className={style.body}>
       <div className={style.main}>
       <div  >
-        
           <div
             contentEditable
             dangerouslySetInnerHTML={{ __html: enterValue }}
             className={style.editor}
             id="text-editor"
-            
           ></div>
         </div>
         <Toolbox
